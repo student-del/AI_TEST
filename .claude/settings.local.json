@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list:*)",
+      "Bash(command -v claude)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(pwsh:*)",
+      "Bash(grep -oP '\"You are[^\"]{0,500}\"' \"C:/Users/juwei/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js\")",
+      "Bash(node:*)",
+      "WebFetch(domain:blog.csdn.net)",
+      "WebFetch(domain:mem0.ai)",
+      "WebFetch(domain:dev.to)",
+      "Bash(grep -oP '.{0,50}\\(compact|snip|budget\\).{0,50}' \"C:/Users/juwei/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js\")",
+      "WebFetch(domain:harrisonsec.com)",
+      "WebFetch(domain:deepwiki.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:arxiv.org)",
+      "Bash(python pda_test.py)",
+      "Bash(python -u pda_test.py)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('pda_test.py'\\).read\\(\\)\\); print\\('语法OK'\\)\")"
+    ]
+  }
+}
