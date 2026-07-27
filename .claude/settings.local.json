@@ -25,7 +25,10 @@
       "Bash(curl -sL --connect-timeout 5 --max-time 10 \"https://api.github.com/repos/wuwangzhang1216/claude-code-source-all-in-one/contents/claude-code-deep-analysis\")",
       "Bash(curl -sL --connect-timeout 10 --max-time 15 \"https://raw.githubusercontent.com/wuwangzhang1216/claude-code-source-all-in-one/main/claude-code-deep-analysis/07-context-window.md\")",
       "Bash(curl -sL --connect-timeout 10 --max-time 15 \"https://api.github.com/repos/wuwangzhang1216/claude-code-source-all-in-one/git/trees/main?recursive=1\")",
-      "Bash(python -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if 'contextCollapse' in t['path'].lower\\(\\) or 'collapse' in t['path'].lower\\(\\)]\")"
+      "Bash(python -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if 'contextCollapse' in t['path'].lower\\(\\) or 'collapse' in t['path'].lower\\(\\)]\")",
+      "Bash(ls:*)",
+      "Read(//c/Users/juwei/**)",
+      "Bash(echo \"[exit=$?]\")"
     ]
   }
 }
