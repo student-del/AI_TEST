@@ -932,3 +932,71 @@ LLM负责“复盘出什么”
 ```
 
 优势是实现简单、不会在每一步都额外调用反思模型；不足是“10 次工具迭代”只代表任务可能复杂，不代表一定产生了新知识，而 LLM 的价值判断也可能过度沉淀或遗漏经验。它是一种启发式触发器加语义审查器，不是确定性的知识学习算法。
+
+## 十四、补充：自演进训练代码是否开源
+
+截至 2026-07-30，答案是：**Skill 文本自演进的 Phase 1 原型已经公开，但完整路线图并未全部实现。**
+
+官方公开仓库：
+
+```text
+https://github.com/NousResearch/hermes-agent-self-evolution
+```
+
+仓库的 `pyproject.toml` 声明：
+
+```toml
+[project]
+name = "hermes-agent-self-evolution"
+version = "0.1.0"
+license = {text = "MIT"}
+```
+
+已公开的主要代码包括：
+
+```text
+evolution/
+├── core/
+│   ├── config.py
+│   ├── dataset_builder.py
+│   ├── external_importers.py
+│   ├── fitness.py
+│   └── constraints.py
+└── skills/
+    ├── evolve_skill.py
+    └── skill_module.py
+```
+
+其中可以直接核查：
+
+- 如何读取和拆分 `SKILL.md`；
+- 如何把 Skill body 包装成 DSPy `SkillModule`；
+- 如何生成 synthetic eval，或导入 golden/session history；
+- 如何切分 train/validation/holdout；
+- 如何调用 `dspy.GEPA.compile()`；
+- GEPA 不可用时如何回退到 `MIPROv2`；
+- 如何比较 baseline/evolved；
+- 如何输出候选 Skill 和 `metrics.json`；
+- 基础大小、增长、非空和结构约束。
+
+官方 README 当前的状态表是：
+
+| 阶段 | 对象 | 状态 |
+|---|---|---|
+| Phase 1 | `SKILL.md` | Implemented |
+| Phase 2 | 工具描述 | Planned |
+| Phase 3 | System prompt | Planned |
+| Phase 4 | 工具实现代码 | Planned |
+| Phase 5 | 持续自动改进循环 | Planned |
+
+这里的“训练”不是模型训练。公开代码通过模型 API 生成、评测和选择文本候选，不包含梯度更新、LoRA、RL 或权重训练。更准确的名称是“离线 Prompt/Skill 优化”。
+
+开源范围也需要谨慎理解：
+
+1. Phase 1 是可阅读、可运行的研究原型；
+2. README/PLAN 描述的完整 pytest、benchmark、语义保持和自动 PR 门禁，并未全部接入当前主脚本；
+3. 当前实际传给 GEPA 的 fitness 仍主要是关键词重合启发式，而不是文件中定义的完整 LLM judge；
+4. `--run-tests` 参数虽然存在，当前主流程没有调用 `run_test_suite()`；
+5. 因此不能把仓库等同于已经生产验证的完整自治训练平台。
+
+此外，Hermes 主仓库也公开了在线经验沉淀代码，包括后台 Review Agent、Skill 触发计数器和 `skill_manage` 写入路径。这部分属于运行时自我改进，不是 DSPy+GEPA 离线搜索。
